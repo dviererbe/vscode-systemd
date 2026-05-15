@@ -1,0 +1,36 @@
+// See https://go.microsoft.com/fwlink/?LinkId=733558
+// for the documentation about the tasks.json format
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "build (vscode-systemd)",
+			"type": "npm",
+			"script": "compile",
+			"presentation": {
+				"reveal": "silent",
+				"group": "build"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"dependsOn": [
+				"build (vscode-utils)"
+			]
+		},
+		{
+			"label": "build (vscode-utils)",
+			"path": "../vscode-utils",
+			"type": "npm",
+			"script": "build",
+			"presentation": {
+				"reveal": "silent",
+				"group": "build"
+			},
+			"group": {
+				"kind": "build"
+			}
+		}
+	]
+}

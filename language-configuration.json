@@ -1,0 +1,23 @@
+{
+    "comments": {
+        "lineComment": {
+            "noIndent": true,
+            "comment": "#"
+        },
+    },
+    "brackets": [
+        ["[", "]"]
+    ],
+    "autoClosingPairs": [
+        ["[", "]"],
+        ["\"", "\""],
+        ["'", "'"]
+    ],
+    "surroundingPairs": [
+        ["{", "}"],
+        ["[", "]"],
+        ["(", ")"],
+        ["\"", "\""],
+        ["'", "'"]
+    ]
+}

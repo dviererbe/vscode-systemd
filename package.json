@@ -1,0 +1,534 @@
+{
+    "name": "vscode-systemd",
+    "displayName": "systemd",
+    "description": "Makes it easy to create, manage, and inspect systemd units.",
+    "icon": "resources/extension-icon.png",
+    "version": "0.0.1",
+    "preview": true,
+    "publisher": "dviererbe",
+    "license": "AGPL-3.0-or-later",
+    "author": {
+        "name": "Dominik Viererbe",
+        "email": "hello@dviererbe.de",
+        "url": "https://www.dviererbe.de/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dviererbe/vscode-systemd.git"
+    },
+    "bugs": {
+        "url": "https://github.com/dviererbe/vscode-systemd/issues"
+    },
+    "qna": "https://github.com/dviererbe/vscode-systemd/discussions",
+    "engines": {
+        "vscode": "^1.105.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "keywords": [
+        "systemd",
+        "unit",
+        "units"
+    ],
+    "pricing": "Free",
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "main": "./dist/extension.js",
+    "scripts": {
+        "vscode:prepublish": "npm run package",
+        "compile": "webpack",
+        "watch": "webpack --watch",
+        "package": "webpack --mode production --devtool hidden-source-map",
+        "compile-tests": "tsc -p . --outDir out",
+        "watch-tests": "tsc -p . -w --outDir out",
+        "pretest": "npm run compile-tests && npm run compile && npm run lint",
+        "lint": "eslint --max-warnings 0 src",
+        "test": "vscode-test"
+    },
+    "dependencies": {
+        "@dviererbe/vscode-utils": "0.0.1-alpha"
+    },
+    "devDependencies": {
+        "@types/mocha": "^10.0.10",
+        "@types/node": "22.x",
+        "@types/vscode": "^1.105.0",
+        "@typescript-eslint/eslint-plugin": "^8.45.0",
+        "@typescript-eslint/parser": "^8.45.0",
+        "@vscode/test-cli": "^0.0.11",
+        "@vscode/test-electron": "^2.5.2",
+        "@vscode/vsce": "^3.6.2",
+        "eslint": "^9.36.0",
+        "ovsx": "^0.10.6",
+        "ts-loader": "^9.5.4",
+        "typescript": "^5.9.3",
+        "webpack": "^5.102.0",
+        "webpack-cli": "^6.0.1"
+    },
+    "contributes": {
+        "commands": [
+            {
+                "command": "vscode-systemd.reportIssue",
+                "title": "%vscode-systemd.commands.reportIssue%",
+                "category": "%vscode-systemd.commandCategories.generic%",
+                "icon": "$(comment)"
+            },
+            {
+                "command": "vscode-systemd.plot",
+                "title": "%vscode-systemd.commands.plot%",
+                "category": "%vscode-systemd.commandCategories.generic%"
+            },
+            {
+                "command": "vscode-systemd.units.system.refresh",
+                "title": "%vscode-systemd.commands.units.system.refresh%",
+                "category": "%vscode-systemd.commandCategories.system.units%",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "vscode-systemd.units.user.refresh",
+                "title": "%vscode-systemd.commands.units.user.refresh%",
+                "category": "%vscode-systemd.commandCategories.user.units%",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "vscode-systemd.units.system.configureExplorer",
+                "title": "%vscode-systemd.commands.units.system.configureExplorer%",
+                "category": "%vscode-systemd.commandCategories.units%",
+                "icon": "$(settings-gear)"
+            },
+            {
+                "command": "vscode-systemd.units.user.configureExplorer",
+                "title": "%vscode-systemd.commands.units.user.configureExplorer%",
+                "category": "%vscode-systemd.commandCategories.units%",
+                "icon": "$(settings-gear)"
+            },
+            {
+                "command": "vscode-systemd.units.openDefinitionFile",
+                "title": "%vscode-systemd.commands.units.openDefinitionFile%",
+                "category": "%vscode-systemd.commandCategories.units%",
+                "icon": "$(go-to-file)"
+            },
+            {
+                "command": "vscode-systemd.units.copyUnitFileName",
+                "title": "%vscode-systemd.commands.units.copyUnitFileName%",
+                "category": "%vscode-systemd.commandCategories.units%",
+                "icon": "$(copy)"
+            },
+            {
+                "command": "vscode-systemd.units.copyUnitName",
+                "title": "%vscode-systemd.commands.units.copyUnitName%",
+                "category": "%vscode-systemd.commandCategories.units%",
+                "icon": "$(copy)"
+            },
+            {
+                "command": "vscode-systemd.units.disableUnit",
+                "title": "%vscode-systemd.commands.units.disableUnit%",
+                "category": "%vscode-systemd.commandCategories.units%",
+                "icon": "$(circle-slash)"
+            },
+            {
+                "command": "vscode-systemd.units.disableUnitUntilRestart",
+                "title": "%vscode-systemd.commands.units.disableUnitUntilRestart%",
+                "category": "%vscode-systemd.commandCategories.units%",
+                "icon": "$(circle-slash)"
+            },
+            {
+                "command": "vscode-systemd.units.enableUnit",
+                "title": "%vscode-systemd.commands.units.enableUnit%",
+                "category": "%vscode-systemd.commandCategories.units%",
+                "icon": "$(check)"
+            },
+            {
+                "command": "vscode-systemd.units.enableUnitUntilRestart",
+                "title": "%vscode-systemd.commands.units.enableUnitUntilRestart%",
+                "category": "%vscode-systemd.commandCategories.units%",
+                "icon": "$(check)"
+            },
+            {
+                "command": "vscode-systemd.units.startUnit",
+                "title": "%vscode-systemd.commands.units.startUnit%",
+                "category": "%vscode-systemd.commandCategories.units%",
+                "icon": "$(play)"
+            },
+            {
+                "command": "vscode-systemd.units.stopUnit",
+                "title": "%vscode-systemd.commands.units.stopUnit%",
+                "category": "%vscode-systemd.commandCategories.units%",
+                "icon": "$(debug-stop)"
+            },
+            {
+                "command": "vscode-systemd.units.restartUnit",
+                "title": "%vscode-systemd.commands.units.restartUnit%",
+                "category": "%vscode-systemd.commandCategories.units%",
+                "icon": "$(debug-restart)"
+            },
+            {
+                "command": "vscode-systemd.units.installUnitFile",
+                "title": "%vscode-systemd.commands.units.installUnitFile%",
+                "category": "%vscode-systemd.commandCategories.units%",
+                "icon": "$(diff-added)"
+            },
+            {
+                "command": "vscode-systemd.units.showJournal",
+                "title": "%vscode-systemd.commands.units.showJournal%",
+                "category": "%vscode-systemd.commandCategories.units%",
+                "icon": "$(output)"
+            },
+            {
+                "command": "vscode-systemd.throwError",
+                "title": "Intentionally throw and error for demonstartion purposes.",
+                "category": "%vscode-systemd.commandCategories.generic%",
+                "icon": "$(bug)"
+            }
+        ],
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "vscode-systemd",
+                    "title": "%vscode-systemd.views.activitybar%",
+                    "icon": "resources/systemd-logo-outline-compact.svg"
+                }
+            ]
+        },
+        "views": {
+            "vscode-systemd": [
+                {
+                    "id": "vscode-systemd.views.units.system",
+                    "type": "tree",
+                    "name": "%vscode-systemd.views.units.system%",
+                    "icon": "resources/systemd-logo-outline-compact.svg"
+                },
+                {
+                    "id": "vscode-systemd.views.units.user",
+                    "type": "tree",
+                    "name": "%vscode-systemd.views.units.user%",
+                    "icon": "resources/systemd-logo-outline-compact.svg"
+                },
+                {
+                    "id": "vscode-systemd.views.help",
+                    "type": "tree",
+                    "name": "%vscode-systemd.views.help%",
+                    "icon": "resources/systemd-logo-outline-compact.svg"
+                }
+            ]
+        },
+        "menus": {
+            "commandPalette": [
+                {
+                    "command": "vscode-systemd.units.openDefinitionFile",
+                    "when": "never"
+                },
+                {
+                    "command": "vscode-systemd.units.copyUnitFileName",
+                    "when": "never"
+                },
+                {
+                    "command": "vscode-systemd.units.copyUnitName",
+                    "when": "never"
+                },
+                {
+                    "command": "vscode-systemd.units.disableUnit",
+                    "when": "never"
+                },
+                {
+                    "command": "vscode-systemd.units.disableUnitUntilRestart",
+                    "when": "never"
+                },
+                {
+                    "command": "vscode-systemd.units.enableUnit",
+                    "when": "never"
+                },
+                {
+                    "command": "vscode-systemd.units.enableUnitUntilRestart",
+                    "when": "never"
+                },
+                {
+                    "command": "vscode-systemd.units.startUnit",
+                    "when": "never"
+                },
+                {
+                    "command": "vscode-systemd.units.stopUnit",
+                    "when": "never"
+                },
+                {
+                    "command": "vscode-systemd.units.restartUnit",
+                    "when": "never"
+                },
+                {
+                    "command": "vscode-systemd.units.showJournal",
+                    "when": "never"
+                }
+            ],
+            "issue/reporter": [
+                {
+                    "command": "vscode-systemd.reportIssue"
+                }
+            ],
+            "explorer/context": [
+                {
+                    "command": "vscode-systemd.units.installUnitFile",
+                    "when": "resourceLangId == systemd-unit || resourceExtname =~ /^\\.(service|socket|device|mount|automount|swap|target|path|timer|slice|scope)$/i",
+                    "group": "8_systemd@1"
+                }
+            ],
+            "editor/title": [
+                {
+                    "command": "vscode-systemd.units.installUnitFile",
+                    "when": "resourceLangId == systemd-unit",
+                    "group": "8_systemd@1"
+                }
+            ],
+            "editor/title/context": [
+                {
+                    "command": "vscode-systemd.units.installUnitFile",
+                    "when": "resourceLangId == systemd-unit",
+                    "group": "8_systemd@1"
+                }
+            ],
+            "view/title": [
+                {
+                    "command": "vscode-systemd.units.system.configureExplorer",
+                    "when": "view == vscode-systemd.views.units.system",
+                    "group": "navigation@8"
+                },
+                {
+                    "command": "vscode-systemd.units.user.configureExplorer",
+                    "when": "view == vscode-systemd.views.units.user",
+                    "group": "navigation@8"
+                },
+                {
+                    "command": "vscode-systemd.units.system.refresh",
+                    "when": "view == vscode-systemd.views.units.system",
+                    "group": "navigation@8"
+                },
+                {
+                    "command": "vscode-systemd.units.user.refresh",
+                    "when": "view == vscode-systemd.views.units.user",
+                    "group": "navigation@8"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "vscode-systemd.units.copyUnitFileName",
+                    "when": "view =~ /^vscode-systemd.views.units/i && viewItem && viewItem =~ /Unit$/i",
+                    "group": "units_1_general@1"
+                },
+                {
+                    "command": "vscode-systemd.units.copyUnitName",
+                    "when": "view =~ /^vscode-systemd.views.units/i && viewItem && viewItem =~ /Unit$/i",
+                    "group": "units_1_general@2"
+                },
+                {
+                    "command": "vscode-systemd.units.disableUnit",
+                    "when": "view =~ /^vscode-systemd.views.units/i && viewItem && viewItem =~ /Unit$/i",
+                    "group": "units_2_operation@1"
+                },
+                {
+                    "command": "vscode-systemd.units.disableUnitUntilRestart",
+                    "when": "view =~ /^vscode-systemd.views.units/i && viewItem && viewItem =~ /Unit$/i",
+                    "group": "units_2_operation@2"
+                },
+                {
+                    "command": "vscode-systemd.units.enableUnit",
+                    "when": "view =~ /^vscode-systemd.views.units/i && viewItem && viewItem =~ /Unit$/i",
+                    "group": "units_2_operation@3"
+                },
+                {
+                    "command": "vscode-systemd.units.enableUnitUntilRestart",
+                    "when": "view =~ /^vscode-systemd.views.units/i && viewItem && viewItem =~ /Unit$/i",
+                    "group": "units_2_operation@4"
+                },
+                {
+                    "command": "vscode-systemd.units.startUnit",
+                    "when": "view =~ /^vscode-systemd.views.units/i && viewItem && viewItem =~ /Unit$/i",
+                    "group": "units_2_operation@5"
+                },
+                {
+                    "command": "vscode-systemd.units.stopUnit",
+                    "when": "view =~ /^vscode-systemd.views.units/i && viewItem && viewItem =~ /Unit$/i",
+                    "group": "units_2_operation@6"
+                },
+                {
+                    "command": "vscode-systemd.units.restartUnit",
+                    "when": "view =~ /^vscode-systemd.views.units/i && viewItem && viewItem =~ /Unit$/i",
+                    "group": "units_2_operation@7"
+                },
+                {
+                    "command": "vscode-systemd.units.showJournal",
+                    "when": "view =~ /^vscode-systemd.views.units/i && viewItem && viewItem =~ /Unit$/i",
+                    "group": "units_2_operation@8"
+                }
+            ]
+        },
+        "languages": [
+            {
+                "id": "systemd-unit",
+                "extensions": [
+                    ".service",
+                    ".socket",
+                    ".device",
+                    ".mount",
+                    ".automount",
+                    ".swap",
+                    ".target",
+                    ".path",
+                    ".timer",
+                    ".slice",
+                    ".scope"
+                ],
+                "configuration": "./language-configuration.json",
+                "aliases": [
+                    "systemd Unit"
+                ]
+            }
+        ],
+        "grammars": [
+            {
+                "language": "systemd-unit",
+                "scopeName": "source.systemd-unit",
+                "path": "./syntaxes/systemd-unit.tmLanguage.json"
+            }
+        ],
+        "configuration": {
+            "title": "systemd",
+            "properties": {
+                "vscode-systemd.units.system.label": {
+                    "type": "string",
+                    "default": "",
+                    "description": "%vscode-systemd.config.units.system.label%",
+                    "enum": [
+                        "UnitFileName",
+                        "UnitName",
+                        "UnitType",
+                        "Loaded",
+                        "Active",
+                        "Status",
+                        "Description"
+                    ]
+                },
+                "vscode-systemd.units.system.description": {
+                    "type": "array",
+                    "default": [ "Loaded", "Active", "Status" ],
+                    "description": "%vscode-systemd.config.units.system.description%",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "UnitFileName",
+                            "UnitName",
+                            "UnitType",
+                            "Loaded",
+                            "Active",
+                            "Status",
+                            "Description"
+                        ]
+                    }
+
+                },
+                "vscode-systemd.units.system.filter": {
+                    "type": "string",
+                    "default": "",
+                    "description": "%vscode-systemd.config.units.system.filter%"
+                },
+                "vscode-systemd.units.system.icon": {
+                    "type": "string",
+                    "default": "",
+                    "description": "%vscode-systemd.config.units.system.icon%",
+                    "enum": [
+                        "UnitType",
+                        "Active",
+                        "None"
+                    ]
+                },
+                "vscode-systemd.units.system.groupBy": {
+                    "type": "string",
+                    "default": "UnitType",
+                    "description": "%vscode-systemd.config.units.system.groupBy%",
+                    "enum": [
+                        "UnitType",
+                        "Active",
+                        "Loaded",
+                        "Status",
+                        "None"
+                    ]
+                },
+                "vscode-systemd.units.system.sortBy": {
+                    "type": "string",
+                    "default": "UnitFileName",
+                    "description": "%vscode-systemd.config.units.user.sortBy%",
+                    "enum": [
+                        "UnitFileName",
+                        "Description"
+                    ]
+                },
+                "vscode-systemd.units.user.label": {
+                    "type": "string",
+                    "default": "",
+                    "description": "%vscode-systemd.config.units.user.label%",
+                    "enum": [
+                        "UnitFileName",
+                        "UnitName",
+                        "UnitType",
+                        "Loaded",
+                        "Active",
+                        "Status",
+                        "Description"
+                    ]
+                },
+                "vscode-systemd.units.user.description": {
+                    "type": "array",
+                    "default": [ "Loaded", "Active", "Status" ],
+                    "description": "%vscode-systemd.config.units.user.description%",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "UnitFileName",
+                            "UnitName",
+                            "UnitType",
+                            "Loaded",
+                            "Active",
+                            "Status",
+                            "Description"
+                        ]
+                    }
+                },
+                "vscode-systemd.units.user.filter": {
+                    "type": "string",
+                    "default": "",
+                    "description": "%vscode-systemd.config.units.system.filter%"
+                },
+                "vscode-systemd.units.user.icon": {
+                    "type": "string",
+                    "default": "",
+                    "description": "%vscode-systemd.config.units.user.icon%",
+                    "enum": [
+                        "UnitType",
+                        "Active",
+                        "None"
+                    ]
+                },
+                "vscode-systemd.units.user.groupBy": {
+                    "type": "string",
+                    "default": "UnitType",
+                    "description": "%vscode-systemd.config.units.user.groupBy%",
+                    "enum": [
+                        "UnitType",
+                        "Active",
+                        "Loaded",
+                        "Status",
+                        "None"
+                    ]
+                },
+                "vscode-systemd.units.user.sortBy": {
+                    "type": "string",
+                    "default": "UnitFileName",
+                    "description": "%vscode-systemd.config.units.user.sortBy%",
+                    "enum": [
+                        "UnitFileName",
+                        "Description"
+                    ]
+                }
+            }
+        }
+    }
+}
