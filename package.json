@@ -92,6 +92,18 @@
                 "icon": "$(settings-gear)"
             },
             {
+                "command": "vscode-systemd.units.configureFilter",
+                "title": "%vscode-systemd.commands.units.configureFilter%",
+                "category": "%vscode-systemd.commandCategories.units%",
+                "icon": "$(filter)"
+            },
+            {
+                "command": "vscode-systemd.units.resetFilter",
+                "title": "%vscode-systemd.commands.units.resetFilter%",
+                "category": "%vscode-systemd.commandCategories.units%",
+                "icon": "$(clear-all)"
+            },
+            {
                 "command": "vscode-systemd.units.openDefinitionFile",
                 "title": "%vscode-systemd.commands.units.openDefinitionFile%",
                 "category": "%vscode-systemd.commandCategories.units%",
@@ -271,6 +283,16 @@
                 }
             ],
             "view/title": [
+                {
+                    "command": "vscode-systemd.units.resetFilter",
+                    "when": "view == vscode-systemd.views.units && vscode-systemd.views.units.filter",
+                    "group": "navigation@6"
+                },
+                {
+                    "command": "vscode-systemd.units.configureFilter",
+                    "when": "view == vscode-systemd.views.units",
+                    "group": "navigation@7"
+                },
                 {
                     "command": "vscode-systemd.units.configureExplorer",
                     "when": "view == vscode-systemd.views.units",

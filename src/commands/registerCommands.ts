@@ -36,6 +36,8 @@ import { configureUnitsExplorer } from "./units/configureUnitsExplorer";
 import { installUnitFile } from "./units/installUnitFile";
 import { showJournal } from "./units/showJournal";
 import { openUnitDefinitionFileCommandId } from "./constants";
+import { configureUnitsFilter } from "./units/configureUnitsFilter";
+import { resetUnitsFilter } from "./units/resetUnitsFilter";
 
 export function registerCommands(): void
 {
@@ -57,6 +59,16 @@ export function registerCommands(): void
     registerCommand({
         commandId: "vscode-systemd.units.configureExplorer",
         callback: (context) => configureUnitsExplorer(context),
+        debounce: defaultCommandDebounceInMs,
+    });
+    registerCommand({
+        commandId: "vscode-systemd.units.configureFilter",
+        callback: (context) => configureUnitsFilter(context),
+        debounce: defaultCommandDebounceInMs,
+    });
+    registerCommand({
+        commandId: "vscode-systemd.units.resetFilter",
+        callback: (context) => resetUnitsFilter(context),
         debounce: defaultCommandDebounceInMs,
     });
     registerCommand({
