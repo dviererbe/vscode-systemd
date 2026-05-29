@@ -33,7 +33,7 @@ export class UnitTreeItem extends GroupChildTreeItem<UnitInfo>
     protected override async resolveTooltipImpl?(_cancellationToken: vscode.CancellationToken): Promise<string | vscode.MarkdownString>
     {
         //simulate some loading time
-        await new Promise(resolve => setTimeout(resolve, 500));
+        //await new Promise(resolve => setTimeout(resolve, 500));
 
         return this.item.description;
     }

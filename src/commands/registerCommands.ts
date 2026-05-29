@@ -33,7 +33,6 @@ import { enableUnit } from "./units/enableUnit";
 import { restartUnit } from "./units/restartUnit";
 import { throwError } from "./units/throwError";
 import { configureUnitsExplorer } from "./units/configureUnitsExplorer";
-import { ExtensionVariables } from "../extensionVariables";
 import { installUnitFile } from "./units/installUnitFile";
 import { showJournal } from "./units/showJournal";
 import { openUnitDefinitionFileCommandId } from "./constants";
@@ -51,23 +50,13 @@ export function registerCommands(): void
         debounce: defaultCommandDebounceInMs,
     });
     registerCommand({
-        commandId: "vscode-systemd.units.system.refresh",
-        callback: (context) => refershUnitsExplorer(context, ExtensionVariables.systemUnitsRoot),
+        commandId: "vscode-systemd.units.refresh",
+        callback: (context) => refershUnitsExplorer(context),
         debounce: defaultCommandDebounceInMs,
     });
     registerCommand({
-        commandId: "vscode-systemd.units.user.refresh",
-        callback: (context) => refershUnitsExplorer(context, ExtensionVariables.userUnitsRoot),
-        debounce: defaultCommandDebounceInMs,
-    });
-    registerCommand({
-        commandId: "vscode-systemd.units.system.configureExplorer",
-        callback: (context) => configureUnitsExplorer(context, ExtensionVariables.systemUnitsRoot),
-        debounce: defaultCommandDebounceInMs,
-    });
-    registerCommand({
-        commandId: "vscode-systemd.units.user.configureExplorer",
-        callback: (context) => configureUnitsExplorer(context, ExtensionVariables.userUnitsRoot),
+        commandId: "vscode-systemd.units.configureExplorer",
+        callback: (context) => configureUnitsExplorer(context),
         debounce: defaultCommandDebounceInMs,
     });
     registerCommand({

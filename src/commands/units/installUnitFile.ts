@@ -16,10 +16,11 @@
 
 
 import { IActionContext, LocalizedLiterals } from "@dviererbe/vscode-utils";
-import * as vscode from "vscode";
-import * as path from "node:path";
 import { SystemdUnitLanguageId } from "../../language/constants";
 import { SystemctlCommand } from "../../clients/SystemctlCommand";
+import { UnitScope } from "../../clients/contracts/common";
+import * as vscode from "vscode";
+import * as path from "node:path";
 
 export async function installUnitFile(
     context: IActionContext,
@@ -96,7 +97,7 @@ export async function installUnitFile(
 
     await vscode.window.showTextDocument(document);
 
-    const selection = await vscode.window.showQuickPick<vscode.QuickPickItem & { scope: "system" | "user" }>(
+    const selection = await vscode.window.showQuickPick<vscode.QuickPickItem & { scope: UnitScope }>(
         [
             {
                 label: vscode.l10n.t("System Wide"),
@@ -117,7 +118,7 @@ export async function installUnitFile(
         });
 
     if (selection === undefined) return;
-    const scope: "system" | "user" = selection.scope;
+    const scope: UnitScope = selection.scope;
 
     name = await vscode.window.showInputBox({
             title: vscode.l10n.t("Unit Name"),

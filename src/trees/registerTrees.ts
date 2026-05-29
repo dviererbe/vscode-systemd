@@ -18,28 +18,18 @@ import * as vscode from "vscode";
 import { ExTreeDataProvider, ExTreeItem, IActionContext, registerCommand } from "@dviererbe/vscode-utils";
 import { HelpTreeItem } from "./help/HelpTreeItem";
 import { ExtensionVariables } from "../extensionVariables";
-import { UnitsTreeItem } from "./units/UnitsTreeItem";
+import { UnitsGroupsRootTreeItem } from "./units/UnitsGroupsRootTreeItem";
 
 export function registerTrees(): void
 {
-    ExtensionVariables.systemUnitsRoot = new UnitsTreeItem(undefined, "system");
-    const loadMoreSystemUnitsCommandId = 'vscode-systemd.units.system.loadMore';
-    ExtensionVariables.systemUnitsTree = new ExTreeDataProvider(ExtensionVariables.systemUnitsRoot, loadMoreSystemUnitsCommandId);
-    ExtensionVariables.systemUnitsTreeView = vscode.window.createTreeView("vscode-systemd.views.units.system", { treeDataProvider: ExtensionVariables.systemUnitsTree, canSelectMany: false });
-    ExtensionVariables.context.subscriptions.push(ExtensionVariables.systemUnitsTreeView);
+    ExtensionVariables.unitsRoot = new UnitsGroupsRootTreeItem();
+    const loadMoreUnitsCommandId = 'vscode-systemd.units.loadMore';
+    ExtensionVariables.unitsTree = new ExTreeDataProvider(ExtensionVariables.unitsRoot, loadMoreUnitsCommandId);
+    ExtensionVariables.unitsTreeView = vscode.window.createTreeView("vscode-systemd.views.units", { treeDataProvider: ExtensionVariables.unitsTree, canSelectMany: false });
+    ExtensionVariables.context.subscriptions.push(ExtensionVariables.unitsTreeView);
     registerCommand({
-        commandId: loadMoreSystemUnitsCommandId,
-        callback: (context: IActionContext, node: ExTreeItem) => ExtensionVariables.systemUnitsTree.loadMore(node, context),
-    });
-
-    ExtensionVariables.userUnitsRoot = new UnitsTreeItem(undefined, "user");
-    const loadMoreUserUnitsCommandId = 'vscode-systemd.units.user.loadMore';
-    ExtensionVariables.userUnitsTree = new ExTreeDataProvider(ExtensionVariables.userUnitsRoot, loadMoreUserUnitsCommandId);
-    ExtensionVariables.userUnitsTreeView = vscode.window.createTreeView("vscode-systemd.views.units.user", { treeDataProvider: ExtensionVariables.userUnitsTree, canSelectMany: false });
-    ExtensionVariables.context.subscriptions.push(ExtensionVariables.userUnitsTreeView);
-    registerCommand({
-        commandId: loadMoreUserUnitsCommandId,
-        callback: (context: IActionContext, node: ExTreeItem) => ExtensionVariables.userUnitsTree.loadMore(node, context),
+        commandId: loadMoreUnitsCommandId,
+        callback: (context: IActionContext, node: ExTreeItem) => ExtensionVariables.unitsTree.loadMore(node, context),
     });
 
     const helpRoot = new HelpTreeItem(undefined);

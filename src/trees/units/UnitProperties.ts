@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import { UnitScope } from "../../clients/contracts/common";
 import { IItemPropertyInfo } from "@dviererbe/vscode-utils";
-
 import * as vscode from "vscode";
 
 export interface UnitInfo
@@ -27,7 +27,7 @@ export interface UnitInfo
     active: string;
     status: string;
     description: string;
-    scope: "system" | "user";
+    scope: UnitScope;
 };
 
 export const unitFileNameProperty: IItemPropertyInfo<UnitInfo> =

@@ -16,9 +16,10 @@
 
 import { IActionContext, NotImplementedError, UserCancelledError } from "@dviererbe/vscode-utils";
 import { ListUnitFilesItem, ListUnitsItem } from "./contracts/systemctlCommand";
+import { throwIfUnitScopeIsInvalid } from "./contracts/common";
 import { RuntimeSpecificCommandOptions, ScopedSystemctlCommandOptions, UnitSpecificSystemctlCommandOptions } from "./SystemctlCommandOptions";
-import { exec, spawn } from "child_process";
 import { ExtensionVariables } from "../extensionVariables";
+import { exec, spawn } from "child_process";
 
 export class SystemctlCommand
 {
@@ -27,6 +28,7 @@ export class SystemctlCommand
         options: ScopedSystemctlCommandOptions & {pattern?: string})
         : Promise<ListUnitsItem[]>
     {
+        throwIfUnitScopeIsInvalid(options.scope);
         let systemdCommand = `list-units --${options.scope} --all --no-pager --output=json`;
         if (options.pattern)
         {
@@ -44,7 +46,8 @@ export class SystemctlCommand
         options: ScopedSystemctlCommandOptions)
         : Promise<ListUnitFilesItem[]>
     {
-        let systemdCommand = `list-unit --${options.scope} --all --no-pager --output=json`;
+        throwIfUnitScopeIsInvalid(options.scope);
+        const systemdCommand = `list-unit --${options.scope} --all --no-pager --output=json`;
         const output = await this.runSystemdCommand(context, systemdCommand);
 
         return JSON.parse(output) as ListUnitFilesItem[];
@@ -55,6 +58,7 @@ export class SystemctlCommand
         options: ScopedSystemctlCommandOptions & UnitSpecificSystemctlCommandOptions)
         : Promise<string>
     {
+        throwIfUnitScopeIsInvalid(options.scope);
         throwIfUnitNameIsAPattern(options.unit);
         throw new NotImplementedError("listDependencies", this);
     }
@@ -64,6 +68,7 @@ export class SystemctlCommand
         options: ScopedSystemctlCommandOptions & UnitSpecificSystemctlCommandOptions)
         : Promise<string>
     {
+        throwIfUnitScopeIsInvalid(options.scope);
         throwIfUnitNameIsAPattern(options.unit);
         throw new NotImplementedError("status", this);
     }
@@ -73,8 +78,9 @@ export class SystemctlCommand
         options: ScopedSystemctlCommandOptions & UnitSpecificSystemctlCommandOptions)
         : Promise<string>
     {
+        throwIfUnitScopeIsInvalid(options.scope);
         throwIfUnitNameIsAPattern(options.unit);
-        let systemdCommand = `show --${options.scope} --all --no-pager --output=json`;
+        const systemdCommand = `show --${options.scope} --all --no-pager --output=json '${options.unit}'`;
         return await this.runSystemdCommand(context, systemdCommand);
     }
 
@@ -83,8 +89,9 @@ export class SystemctlCommand
         options: ScopedSystemctlCommandOptions & UnitSpecificSystemctlCommandOptions)
         : Promise<string>
     {
+        throwIfUnitScopeIsInvalid(options.scope);
         throwIfUnitNameIsAPattern(options.unit);
-        let systemdCommand = `cat --no-pager --${options.scope} '${options.unit}'`;
+        const systemdCommand = `cat --no-pager --${options.scope} '${options.unit}'`;
         return await this.runSystemdCommand(context, systemdCommand);
     }
 
@@ -96,8 +103,9 @@ export class SystemctlCommand
                  & { definition: string } )
         : Promise<void>
     {
+        throwIfUnitScopeIsInvalid(options.scope);
         throwIfUnitNameIsAPattern(options.unit);
-        let args = [ "edit", `--${options.scope}`, "--full", "--force", "--stdin" ];
+        const args = [ "edit", `--${options.scope}`, "--full", "--force", "--stdin" ];
 
         if (options.runtime)
         {
@@ -118,8 +126,9 @@ export class SystemctlCommand
         options: ScopedSystemctlCommandOptions & UnitSpecificSystemctlCommandOptions & RuntimeSpecificCommandOptions)
         : Promise<void>
     {
+        throwIfUnitScopeIsInvalid(options.scope);
         throwIfUnitNameIsAPattern(options.unit);
-        let systemdCommand = `enable --${options.scope} ${runtimeFlag(options)} '${options.unit}'`;
+        const systemdCommand = `enable --${options.scope} ${runtimeFlag(options)} '${options.unit}'`;
         await this.runSystemdCommand(context, systemdCommand, options.scope === "system");
     }
 
@@ -128,8 +137,9 @@ export class SystemctlCommand
         options: ScopedSystemctlCommandOptions & UnitSpecificSystemctlCommandOptions & RuntimeSpecificCommandOptions)
         : Promise<void>
     {
+        throwIfUnitScopeIsInvalid(options.scope);
         throwIfUnitNameIsAPattern(options.unit);
-        let systemdCommand = `disable --${options.scope} ${runtimeFlag(options)} '${options.unit}'`;
+        const systemdCommand = `disable --${options.scope} ${runtimeFlag(options)} '${options.unit}'`;
         await this.runSystemdCommand(context, systemdCommand, options.scope === "system");
     }
 
@@ -138,8 +148,9 @@ export class SystemctlCommand
         options: ScopedSystemctlCommandOptions & UnitSpecificSystemctlCommandOptions)
         : Promise<void>
     {
+        throwIfUnitScopeIsInvalid(options.scope);
         throwIfUnitNameIsAPattern(options.unit);
-        let systemdCommand = `start --${options.scope} '${options.unit}'`;
+        const systemdCommand = `start --${options.scope} '${options.unit}'`;
         await this.runSystemdCommand(context, systemdCommand, options.scope === "system");
     }
 
@@ -148,8 +159,9 @@ export class SystemctlCommand
         options: ScopedSystemctlCommandOptions & UnitSpecificSystemctlCommandOptions)
         : Promise<void>
     {
+        throwIfUnitScopeIsInvalid(options.scope);
         throwIfUnitNameIsAPattern(options.unit);
-        let systemdCommand = `stop --${options.scope} '${options.unit}'`;
+        const systemdCommand = `stop --${options.scope} '${options.unit}'`;
         await this.runSystemdCommand(context, systemdCommand, options.scope === "system");
     }
 
@@ -158,14 +170,16 @@ export class SystemctlCommand
         options: ScopedSystemctlCommandOptions & UnitSpecificSystemctlCommandOptions)
         : Promise<void>
     {
+        throwIfUnitScopeIsInvalid(options.scope);
         throwIfUnitNameIsAPattern(options.unit);
-        let systemdCommand = `restart --${options.scope} '${options.unit}'`;
+        const systemdCommand = `restart --${options.scope} '${options.unit}'`;
         await this.runSystemdCommand(context, systemdCommand, options.scope === "system");
     }
 
     public static async daemonReload(context: IActionContext, options: ScopedSystemctlCommandOptions): Promise<void>
     {
-        let systemdCommand = `daemon-reload --${options.scope}`;
+        throwIfUnitScopeIsInvalid(options.scope);
+        const systemdCommand = `daemon-reload --${options.scope}`;
         await this.runSystemdCommand(context, systemdCommand, options.scope === "system");
     }
 

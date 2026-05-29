@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* unit explorer filter enhancements: 
+  - displayed value in header 
+
+### Changed
+
+* merged system and user unit explorers into a single unified view
+
 ### Fixed
 
 * replaced incorrect changelog file included in the package

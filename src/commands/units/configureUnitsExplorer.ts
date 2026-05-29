@@ -15,9 +15,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import { IActionContext } from "@dviererbe/vscode-utils";
-import { UnitsTreeItem } from "../../trees/units/UnitsTreeItem";
+import { ExtensionVariables } from "../../extensionVariables";
 
-export function configureUnitsExplorer(_context: IActionContext, unitsTree: UnitsTreeItem): Promise<void>
+export function configureUnitsExplorer(_context: IActionContext): Promise<void>
 {
-    return unitsTree.configureExplorer();
+    return ExtensionVariables.unitsRoot.configureExplorer();
 }

@@ -14,20 +14,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import { IActionContext } from "@dviererbe/vscode-utils";
-import { UnitTreeItem } from "../../trees/units/UnitTreeItem";
-import * as vscode from "vscode";
+export type UnitScope = "system" | "user";
 
-export async function showJournal(context: IActionContext, unitTreeItem: UnitTreeItem): Promise<void>
+export function isValidUnitScope(value: string): value is UnitScope
 {
-    context.errorHandling.suppressDisplay = false;
-    const unit = unitTreeItem.item;
+    return value === "system" || value === "user";
+}
 
-    const term = await vscode.window.createTerminal({
-        name: `${unit.unitFileName} (${unit.scope}) journal`,
-        iconPath: new vscode.ThemeIcon("output"),
-    });
-    const preserveFocus = false;
-    term.show(preserveFocus);
-    term.sendText(`journalctl --pager-end --follow --${unit.scope} --unit '${unit.unitFileName}'`, true);
+export function throwIfUnitScopeIsInvalid(scope: string)
+{
+    if (!isValidUnitScope(scope)) throw new Error(`unknown systemd unit scope '${scope}'`);
 }

@@ -8,11 +8,6 @@ export class SystemdAnalyzeCommand
         return this.runSystemdCommand("plot");
     }
 
-    public async verify(): Promise<string>
-    {
-        return "";
-    }
-
     private static runSystemdCommand(command:string): Promise<string>
         {
             return new Promise((resolve, reject) =>

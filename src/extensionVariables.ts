@@ -16,18 +16,14 @@
 
 import * as vscode from "vscode";
 import { ExTreeDataProvider, ExTreeItem } from "@dviererbe/vscode-utils";
-import { UnitsTreeItem } from "./trees/units/UnitsTreeItem";
+import { UnitsGroupsRootTreeItem } from "./trees/units/UnitsGroupsRootTreeItem";
 
 export namespace ExtensionVariables
 {
     export let context: vscode.ExtensionContext;
     export let defaultLogOutputChannel: vscode.LogOutputChannel;
 
-    export let systemUnitsTree: ExTreeDataProvider;
-    export let systemUnitsTreeView: vscode.TreeView<ExTreeItem>;
-    export let systemUnitsRoot: UnitsTreeItem;
-
-    export let userUnitsTree: ExTreeDataProvider;
-    export let userUnitsTreeView: vscode.TreeView<ExTreeItem>;
-    export let userUnitsRoot: UnitsTreeItem;
+    export let unitsTree: ExTreeDataProvider;
+    export let unitsTreeView: vscode.TreeView<ExTreeItem>;
+    export let unitsRoot: UnitsGroupsRootTreeItem;
 }

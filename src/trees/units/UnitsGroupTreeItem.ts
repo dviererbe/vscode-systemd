@@ -19,14 +19,17 @@ import { SystemctlCommand } from "../../clients/SystemctlCommand";
 import { unitActiveProperty, unitDescriptionProperty, unitFileNameProperty, UnitInfo, unitLoadedProperty, unitNameProperty, unitStatusProperty, unitTypeProperty } from "./UnitProperties";
 import { UnitTreeItem } from "./UnitTreeItem";
 import * as vscode from "vscode";
+import { UnitsGroupsRootTreeItem } from "./UnitsGroupsRootTreeItem";
+import { throwIfUnitScopeIsInvalid, UnitScope } from "../../clients/contracts/common";
 
-const filterKey = "filter";
-const filterText = vscode.l10n.t("Filter");
-
-export class UnitsTreeItem extends GroupParentTreeItem<UnitInfo>
+export class UnitsGroupTreeItem extends GroupParentTreeItem<UnitInfo>
 {
     public readonly treePrefix: string;
-    public readonly scope: "system" | "user";
+    public readonly scope: UnitScope;
+    public readonly label: string;
+
+    public declare readonly parent: UnitsGroupsRootTreeItem;
+    public override readonly initialCollapsibleState: vscode.TreeItemCollapsibleState | undefined = vscode.TreeItemCollapsibleState.Expanded;
 
     protected readonly defaultLabelProperty = unitNameProperty;
     protected readonly defaultDescriptionProperties = [ unitLoadedProperty, unitActiveProperty, unitStatusProperty ];
@@ -34,42 +37,30 @@ export class UnitsTreeItem extends GroupParentTreeItem<UnitInfo>
     protected readonly defaultSortByProperty = unitFileNameProperty;
     protected readonly defaultGroupByProperty = unitTypeProperty;
 
-    private _filter: string | undefined;
-
-    public constructor(parent: ExParentTreeItem | undefined, scope: "system" | "user")
+    public constructor(parent: UnitsGroupsRootTreeItem, scope: UnitScope)
     {
-        super(parent);
+        throwIfUnitScopeIsInvalid(scope);
+
+        // Because all unit group tree items read from the same config, we want to
+        // avoid refreshing multiple times and therefore unnecessary reads/UI updates.
+        super(parent, { refreshOnConfigurationChanges: false });
         this.scope = scope;
         this.treePrefix="units." + scope;
-        this.description = this.treePrefix;
+        this.label = scope;
+        this.description = getUnitScopeDescription(scope);
+        this.iconPath = getUnitScopeIcon(scope);
     }
 
-    public get label(): string
+    // We override this so that all unit group tree items read from the same config section.
+    protected override get configSection(): string
     {
-        // this should never be called, because this class will be the root of treeview
-        return this.treePrefix;
-    }
-
-    public get filter(): string | undefined
-    {
-        return this._filter;
-    }
-
-    protected set filter(value: string | undefined)
-    {
-        if (value === "")
-        {
-            this._filter = undefined;
-            return;
-        }
-
-        this._filter = value;
+        return this.parent.configSection;
     }
 
     protected async getItems(context: IActionContext): Promise<UnitInfo[]>
     {
-        this.filter = await this.config.get<string>(filterKey);
-        const units = await SystemctlCommand.listUnits(context, { scope: this.scope, pattern: this._filter });
+        this.parent.refreshFilterValue();
+        const units = await SystemctlCommand.listUnits(context, { scope: this.scope, pattern: this.parent.filter });
 
         return units.map((unit) =>
             {
@@ -100,7 +91,7 @@ export class UnitsTreeItem extends GroupParentTreeItem<UnitInfo>
         unitDescriptionProperty,
     ];
 
-    protected createChildTreeItem(
+    protected override createChildTreeItem(
         item: UnitInfo,
         parent: ExParentTreeItem,
         root: GroupParentTreeItem<UnitInfo>): GroupChildTreeItem<UnitInfo>
@@ -108,53 +99,39 @@ export class UnitsTreeItem extends GroupParentTreeItem<UnitInfo>
         return new UnitTreeItem(parent, item, root);
     }
 
-    protected override onDidChangeConfigSection(context: IActionContext, childSettingChanged?: boolean): void
+    protected override readSettingsValues(): void
     {
-        const oldValue = this.filter;
-        this.filter = this.config.get<string>(filterKey);
-        let changed = this.filter !== oldValue;
-
-        super.onDidChangeConfigSection(context, changed || childSettingChanged);
+        super.readSettingsValues();
+        this.parent.refreshFilterValue();
     }
 
     protected override get settings(): ISettingInfo<UnitInfo>[]
     {
         const settings = super.settings;
-        settings.push({
-            label: filterText,
-            description: vscode.l10n.t("Only units mathing the pattern are shown."),
-            currentValueDisplayString: this._filter ?? "",
-            isCustom: true,
-            callback: async () =>
-            {
-
-            },
-            reset: this.resetFilter.bind(this),
-        });
+        settings.push(this.parent.filerSetting);
 
         return settings;
     }
+}
 
-    public async configureFilter(): Promise<void>
+function getUnitScopeDescription(scope: UnitScope) : string
+{
+    switch (scope)
     {
-        const input = await vscode.window.showInputBox({
-            title: filterText,
-            placeHolder: vscode.l10n.t("e.g. {0}", "*.docker.service"),
-            value: this._filter,
-        });
-
-        if (input === undefined || input === "")
-        {
-            await this.config.update(filterKey, undefined);
-        }
-        else
-        {
-            await this.config.update(filterKey, input);
-        }
+        case "system":
+            return vscode.l10n.t("System Units");
+        case "user":
+            return vscode.l10n.t("Current User Units");
     }
+}
 
-    public async resetFilter(): Promise<void>
+function getUnitScopeIcon(scope: UnitScope) : vscode.ThemeIcon
+{
+    switch (scope)
     {
-        await this.config.update(filterKey, undefined);
+        case "system":
+            return new vscode.ThemeIcon("vm");
+        case "user":
+            return new vscode.ThemeIcon("account");
     }
 }
