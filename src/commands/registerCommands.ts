@@ -31,7 +31,7 @@ import { disableUnitUntilRestart } from "./units/disableUnitUntilRestart";
 import { enableUnitUntilRestart } from "./units/enableUnitUntilRestart";
 import { enableUnit } from "./units/enableUnit";
 import { restartUnit } from "./units/restartUnit";
-import { throwError } from "./units/throwError";
+import { throwError } from "./general/throwError";
 import { configureUnitsExplorer } from "./units/configureUnitsExplorer";
 import { installUnitFile } from "./units/installUnitFile";
 import { showJournal } from "./units/showJournal";

@@ -179,7 +179,8 @@
                 "command": "vscode-systemd.throwError",
                 "title": "Intentionally throw and error for demonstartion purposes.",
                 "category": "%vscode-systemd.commandCategories.generic%",
-                "icon": "$(bug)"
+                "icon": "$(bug)",
+                "enablement": "vscode-systemd.devMode"
             }
         ],
         "viewsContainers": {
