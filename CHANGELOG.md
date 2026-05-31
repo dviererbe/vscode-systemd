@@ -9,9 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-* unit explorer filter enhancements: 
-  - displayed value in header 
-  - commands/context menu items (configure, clear)
+* unit explorer enhancements: 
+  - filter value displayed in header
+  - commands/context menu items (configure filter, clear filter)
+  - refresh on interval (default: every 5 seconds)
 * zoom and pan control to startup time plot
 
 ### Changed

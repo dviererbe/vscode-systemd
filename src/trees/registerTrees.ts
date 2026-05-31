@@ -19,6 +19,7 @@ import { ExTreeDataProvider, ExTreeItem, IActionContext, registerCommand } from 
 import { HelpTreeItem } from "./help/HelpTreeItem";
 import { ExtensionVariables } from "../extensionVariables";
 import { UnitsGroupsRootTreeItem } from "./units/UnitsGroupsRootTreeItem";
+import { RefreshManager } from "./RefreshManager";
 
 export function registerTrees(): void
 {
@@ -36,4 +37,6 @@ export function registerTrees(): void
     const helpTreeDataProvider = new ExTreeDataProvider(helpRoot, "vscode-systemd.help.loadMore");
     const helpTreeView = vscode.window.createTreeView("vscode-systemd.views.help", { treeDataProvider: helpTreeDataProvider, canSelectMany: false });
     ExtensionVariables.context.subscriptions.push(helpTreeView);
+
+    ExtensionVariables.context.subscriptions.push(new RefreshManager());
 }

@@ -395,7 +395,15 @@
         "configuration": {
             "title": "systemd",
             "properties": {
+                "vscode-systemd.refreshInterval": {
+                    "scope": "window",
+                    "type": "number",
+                    "default": 5000,
+                    "description": "%vscode-systemd.config.refreshInterval%",
+                    "minimum": 0
+                },
                 "vscode-systemd.units.label": {
+                    "scope": "window",
                     "type": "string",
                     "default": "",
                     "description": "%vscode-systemd.config.units.label%",
@@ -410,6 +418,7 @@
                     ]
                 },
                 "vscode-systemd.units.description": {
+                    "scope": "window",
                     "type": "array",
                     "default": [ "Loaded", "Active", "Status" ],
                     "description": "%vscode-systemd.config.units.description%",
@@ -428,6 +437,7 @@
 
                 },
                 "vscode-systemd.units.icon": {
+                    "scope": "window",
                     "type": "string",
                     "default": "",
                     "description": "%vscode-systemd.config.units.icon%",
@@ -438,6 +448,7 @@
                     ]
                 },
                 "vscode-systemd.units.groupBy": {
+                    "scope": "window",
                     "type": "string",
                     "default": "UnitType",
                     "description": "%vscode-systemd.config.units.groupBy%",
@@ -450,6 +461,7 @@
                     ]
                 },
                 "vscode-systemd.units.sortBy": {
+                    "scope": "window",
                     "type": "string",
                     "default": "UnitFileName",
                     "description": "%vscode-systemd.config.units.sortBy%",
@@ -459,6 +471,7 @@
                     ]
                 },
                 "vscode-systemd.units.filter": {
+                    "scope": "window",
                     "type": "string",
                     "default": "",
                     "description": "%vscode-systemd.config.units.filter%"
