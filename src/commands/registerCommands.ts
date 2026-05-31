@@ -35,7 +35,6 @@ import { throwError } from "./general/throwError";
 import { configureUnitsExplorer } from "./units/configureUnitsExplorer";
 import { installUnitFile } from "./units/installUnitFile";
 import { showJournal } from "./units/showJournal";
-import { openUnitDefinitionFileCommandId } from "./constants";
 import { configureUnitsFilter } from "./units/configureUnitsFilter";
 import { resetUnitsFilter } from "./units/resetUnitsFilter";
 
@@ -72,7 +71,7 @@ export function registerCommands(): void
         debounce: defaultCommandDebounceInMs,
     });
     registerCommand({
-        commandId: openUnitDefinitionFileCommandId,
+        commandId: "vscode-systemd.units.openDefinitionFile",
         callback: openUnitDefinitionFile,
         debounce: defaultCommandDebounceInMs,
     });

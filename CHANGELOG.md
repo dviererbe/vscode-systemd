@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 * merged system and user unit explorers into a single unified view
+* open unit file via inline icon (replaces tree-item click)
 
 ### Fixed
 

@@ -17,7 +17,6 @@
 import { ExParentTreeItem, GroupChildTreeItem, GroupParentTreeItem } from "@dviererbe/vscode-utils";
 import * as vscode from "vscode";
 import { UnitInfo } from "./UnitProperties";
-import { openUnitDefinitionFileCommandId } from "../../commands/constants";
 
 export class UnitTreeItem extends GroupChildTreeItem<UnitInfo>
 {
@@ -27,7 +26,7 @@ export class UnitTreeItem extends GroupChildTreeItem<UnitInfo>
         root: GroupParentTreeItem<UnitInfo>)
     {
         super(parent, item, root);
-        this.commandId = openUnitDefinitionFileCommandId;
+        this.commandId = undefined;
     }
 
     protected override async resolveTooltipImpl?(_cancellationToken: vscode.CancellationToken): Promise<string | vscode.MarkdownString>

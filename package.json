@@ -307,6 +307,11 @@
             ],
             "view/item/context": [
                 {
+                    "command": "vscode-systemd.units.openDefinitionFile",
+                    "when": "view == vscode-systemd.views.units && viewItem && viewItem =~ /Unit$/i",
+                    "group": "inline"
+                },
+                {
                     "command": "vscode-systemd.units.copyUnitFileName",
                     "when": "view == vscode-systemd.views.units && viewItem && viewItem =~ /Unit$/i",
                     "group": "units_1_general@1"
