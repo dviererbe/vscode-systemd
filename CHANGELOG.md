@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * unit explorer filter enhancements: 
   - displayed value in header 
   - commands/context menu items (configure, clear)
+* zoom and pan control to startup time plot
 
 ### Changed
 
