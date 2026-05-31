@@ -82,7 +82,7 @@
             {
                 "command": "vscode-systemd.units.refresh",
                 "title": "%vscode-systemd.commands.units.refresh%",
-                "category": "%vscode-systemd.commandCategories.units",
+                "category": "%vscode-systemd.commandCategories.units%",
                 "icon": "$(refresh)"
             },
             {
