@@ -14,22 +14,6 @@
 			"group": {
 				"kind": "build",
 				"isDefault": true
-			},
-			"dependsOn": [
-				"build (vscode-utils)"
-			]
-		},
-		{
-			"label": "build (vscode-utils)",
-			"path": "../vscode-utils",
-			"type": "npm",
-			"script": "build",
-			"presentation": {
-				"reveal": "silent",
-				"group": "build"
-			},
-			"group": {
-				"kind": "build"
 			}
 		}
 	]
