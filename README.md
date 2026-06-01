@@ -20,7 +20,7 @@ This extension provides basic IntelliSense when editing your systemd unit files 
 
 > ℹ️ This feature is a currently in it's early stages and not feature complete yet. It will be extened in future releases.
 
-![screencapture that demonstartes this feature](./resources/readme/edit-unit-file.gif)
+![screencapture that demonstartes this feature](https://github.com/dviererbe/vscode-systemd/raw/main/resources/readme/edit-unit-file.gif)
 
 ### Units Explorer
 
@@ -28,35 +28,35 @@ This extension contributes a Units Explorer view to VS Code. The Units Explorer 
 
 The right-click menu provides access to commonly used commands for each type of asset.
 
-![screencapture that demonstartes this feature](./resources/readme/interact-with-units.gif)
+![screencapture that demonstartes this feature](https://github.com/dviererbe/vscode-systemd/raw/main/resources/readme/interact-with-units.gif)
 
 The Units Explorer supports comprehensive configuration: group and sort units, apply a filter, and customize the label, description, and icon displayed for each unit.
 
-![screencapture that demonstartes this feature](./resources/readme/configure-units-explorer.gif)
+![screencapture that demonstartes this feature](https://github.com/dviererbe/vscode-systemd/raw/main/resources/readme/configure-units-explorer.gif)
 
 ### Unit commands
 
 Commands to interfact with units are built right into the Command Palette:
 
-![screenshot that demonstartes this feature](./resources/readme/command-pallet.png)
+![screenshot that demonstartes this feature](https://github.com/dviererbe/vscode-systemd/raw/main/resources/readme/command-pallet.png)
 
 ### Snippets
 
 Snippets can be used to speed up writing/editing unit files:
 
-![screencapture that demonstartes this feature](./resources/readme/snippet.gif)
+![screencapture that demonstartes this feature](https://github.com/dviererbe/vscode-systemd/raw/main/resources/readme/snippet.gif)
 
 ### Install unit files
 
 Install unit files from the active editor or the file explorer:
 
-![screencapture that demonstartes this feature](./resources/readme/install-unit-file.gif)
+![screencapture that demonstartes this feature](https://github.com/dviererbe/vscode-systemd/raw/main/resources/readme/install-unit-file.gif)
 
 ### Inspect system startup times
 
 Plot which system services have been started at what time, highlighting the time they spent on initialization:
 
-![screencapture that demonstartes this feature](./resources/readme/systemd-analyze-plot.gif)
+![screencapture that demonstartes this feature](https://github.com/dviererbe/vscode-systemd/raw/main/resources/readme/systemd-analyze-plot.gif)
 
 ## Credit
 
