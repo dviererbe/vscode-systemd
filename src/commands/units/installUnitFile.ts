@@ -101,12 +101,12 @@ export async function installUnitFile(
         [
             {
                 label: vscode.l10n.t("System Wide"),
-                description: vscode.l10n.t("Install unit file system wide."),
+                description: vscode.l10n.t("install unit file system wide"),
                 scope: "system",
             },
             {
                 label: vscode.l10n.t("Current User"),
-                description: vscode.l10n.t("Install unit file for current user."),
+                description: vscode.l10n.t("install unit file for current user"),
                 scope: "user",
                 picked: true,
             },
@@ -114,7 +114,7 @@ export async function installUnitFile(
         {
             title: vscode.l10n.t("Scope"),
             canPickMany: false,
-            placeHolder: vscode.l10n.t("Where install the unit file to?")
+            prompt: vscode.l10n.t("Where install the unit file to?")
         });
 
     if (selection === undefined) return;
@@ -137,4 +137,63 @@ export async function installUnitFile(
             runtime: false,
             scope: scope,
         });
+
+    const enableSelection = await vscode.window.showQuickPick<vscode.QuickPickItem & { enable: boolean }>(
+        [
+            {
+                label: LocalizedLiterals.yes,
+                picked: true,
+                enable: true,
+                description: vscode.l10n.t("enable the unit file that was just created", name),
+            },
+            {
+                label: LocalizedLiterals.no,
+                picked: false,
+                enable: false,
+                description: vscode.l10n.t("do nothing"),
+            }
+        ],
+        {
+            canPickMany: false,
+            title: vscode.l10n.t("Enable Unit File?"),
+            prompt: vscode.l10n.t("Enable the unit file '{0}' that was just created?", name),
+        });
+
+    if (enableSelection?.enable !== true) return;
+
+    await SystemctlCommand.enable(context,
+    {
+        unit: name,
+        runtime: false,
+        scope: scope,
+    });
+
+    const startSelection = await vscode.window.showQuickPick<vscode.QuickPickItem & { start: boolean }>(
+        [
+            {
+                label: LocalizedLiterals.yes,
+                picked: true,
+                start: true,
+                description: vscode.l10n.t("start the unit that was just enabled", name),
+            },
+            {
+                label: LocalizedLiterals.no,
+                picked: false,
+                start: false,
+                description: vscode.l10n.t("do nothing"),
+            }
+        ],
+        {
+            canPickMany: false,
+            title: vscode.l10n.t("Start unit?"),
+            prompt: vscode.l10n.t("Start the unit '{0}' that was just enabled?", name),
+        });
+
+    if (startSelection?.start !== true) return;
+
+    await SystemctlCommand.start(context,
+    {
+        unit: name,
+        scope: scope,
+    });
 }

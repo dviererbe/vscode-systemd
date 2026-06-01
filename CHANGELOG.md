@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * zoom and pan control to startup time plot
 * progress indication for systemd-analyze plot command
 * systemd unit file snippets
+* ask for enable unit and start unit when installing a unit
 
 ### Changed
 
