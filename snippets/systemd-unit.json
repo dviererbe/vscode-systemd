@@ -151,7 +151,7 @@
             "Type=${1|simple,exec,forking,oneshot,dbus,notify,notify-reload,idle|}",
             "ExecStart=${2:/usr/bin/command --flag}",
             "Restart=${3|no,on-success,on-failure,on-abnormal,on-abort,always|}",
-            "RestartSec=${4|5s}",
+            "RestartSec=${4:5s}",
             "$0"
         ]
     },
