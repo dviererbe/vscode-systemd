@@ -22,22 +22,30 @@ export async function showPlotView(context: IActionContext): Promise<void>
 {
     context.errorHandling.suppressDisplay = false;
 
-    const plotSvg = await SystemdAnalyzeCommand.plot();
+    await vscode.window.withProgress({
+        title: "systemd-analyze plot",
+        location: vscode.ProgressLocation.Notification,
+        cancellable: false,
+    }, async (progress: vscode.Progress<{message?: string; increment?: number;}>) =>
+    {
+        progress.report({"message": vscode.l10n.t("Generating SVG plot...")});
+        const plotSvg = await SystemdAnalyzeCommand.plot();
 
-    const webViewPanel = vscode.window.createWebviewPanel(
-        "vscode-systemd.plot",
-        "systemd-analyze plot",
-        vscode.ViewColumn.Active,
-        {
-            enableScripts: true,
-            enableForms: false,
-            enableCommandUris: false,
-            enableFindWidget: false,
-            localResourceRoots: [],
-            retainContextWhenHidden: true
-        });
-
-    webViewPanel.webview.html = buildPlotHtml(webViewPanel.webview, plotSvg);
+        progress.report({"message": vscode.l10n.t("Preparing web view..."), increment: 95});
+        const webViewPanel = vscode.window.createWebviewPanel(
+            "vscode-systemd.plot",
+            "systemd-analyze plot",
+            vscode.ViewColumn.Active,
+            {
+                enableScripts: true,
+                enableForms: false,
+                enableCommandUris: false,
+                enableFindWidget: false,
+                localResourceRoots: [],
+                retainContextWhenHidden: true
+            });
+        webViewPanel.webview.html = buildPlotHtml(webViewPanel.webview, plotSvg);
+    });
 }
 
 /**
