@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 * replaced incorrect changelog file included in the package
+* units explorer: "Unit File-Name" property returned value for "Unit Name"
 
 ## [0.0.1] - 15 May 2026
 
