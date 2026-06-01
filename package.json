@@ -24,6 +24,9 @@
         "vscode": "^1.105.0"
     },
     "categories": [
+        "Programming Languages",
+        "Visualization",
+        "Snippets",
         "Other"
     ],
     "keywords": [
