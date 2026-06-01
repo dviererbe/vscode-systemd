@@ -1,6 +1,8 @@
 > ℹ️ **This extension is still in development. Please share your feedback/thoughts by submitting or commenting on [issues](https://github.com/dviererbe/vscode-systemd/issues), [pull requests](https://github.com/dviererbe/vscode-systemd/pulls) or [discussions](https://github.com/dviererbe/vscode-systemd/discussions).**
 
-# systemd extension for Visual Studio Code [![License: GNU Affero General Public License v3.0 or later](https://img.shields.io/badge/License-AGPL--3.0--or--later-informational)](https://github.com/dviererbe/vscode-systemd/blob/main/LICENSE.md) [![VS Code Marketplace](https://vsmarketplacebadges.dev/version/dviererbe.vscode-systemd.svg)](https://marketplace.visualstudio.com/items?itemName=dviererbe.vscode-systemd) [![VS Code Marketplace](https://img.shields.io/open-vsx/v/dviererbe/vscode-systemd?logo=vscodium&label=Open%20VSX%20Registry)](https://open-vsx.org/extension/dviererbe/vscode-systemd)
+# systemd extension for Visual Studio Code
+
+[![License: GNU Affero General Public License v3.0 or later](https://img.shields.io/badge/License-AGPL--3.0--or--later-informational)](https://github.com/dviererbe/vscode-systemd/blob/main/LICENSE.md) [![VS Code Marketplace](https://vsmarketplacebadges.dev/version/dviererbe.vscode-systemd.svg)](https://marketplace.visualstudio.com/items?itemName=dviererbe.vscode-systemd) [![VS Code Marketplace](https://img.shields.io/open-vsx/v/dviererbe/vscode-systemd?logo=vscodium&label=Open%20VSX%20Registry)](https://open-vsx.org/extension/dviererbe/vscode-systemd)
 
 The systemd extension makes it easy to inspect, manage, and create systemd units from Visual Studio Code.
 
