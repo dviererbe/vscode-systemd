@@ -48,7 +48,7 @@
         "test": "vscode-test"
     },
     "dependencies": {
-        "@dviererbe/vscode-utils": "0.0.2"
+        "@dviererbe/vscode-utils": "dviererbe/vscode-utils#v0.0.2"
     },
     "devDependencies": {
         "@types/mocha": "^10.0.10",
@@ -56,7 +56,6 @@
         "@types/vscode": "^1.105.0",
         "@typescript-eslint/eslint-plugin": "^8.45.0",
         "@typescript-eslint/parser": "^8.45.0",
-        "@vscode/test-cli": "^0.0.11",
         "@vscode/test-electron": "^2.5.2",
         "@vscode/vsce": "^3.6.2",
         "eslint": "^9.36.0",
