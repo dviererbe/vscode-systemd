@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * refresh on interval (default: every 5 seconds)
 * zoom and pan control to startup time plot
 * progress indication for systemd-analyze plot command
+* systemd unit file snippets
 
 ### Changed
 

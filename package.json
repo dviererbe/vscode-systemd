@@ -391,6 +391,12 @@
                 "path": "./syntaxes/systemd-unit.tmLanguage.json"
             }
         ],
+        "snippets": [
+            {
+                "language": "systemd-unit",
+                "path": "./snippets/systemd-unit.json"
+            }
+        ],
         "configuration": {
             "title": "systemd",
             "properties": {

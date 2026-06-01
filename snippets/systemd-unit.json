@@ -1,0 +1,167 @@
+{
+    "Service Unit (simple)": {
+        "prefix": "service",
+        "description": "A complete service unit running a long-lived process.",
+        "body": [
+            "[Unit]",
+            "Description=${1:Short human-readable title}",
+            "After=${2:network-online.target}",
+            "Wants=${2:network-online.target}",
+            "",
+            "[Service]",
+            "Type=${3|simple,exec,forking,oneshot,dbus,notify,notify-reload,idle|}",
+            "ExecStart=${4:/usr/bin/command --flag}",
+            "Restart=${5|no,on-success,on-failure,on-abnormal,on-abort,always|}",
+            "RestartSec=${6:5s}",
+            "",
+            "[Install]",
+            "WantedBy=${7:multi-user.target}",
+            "$0"
+        ]
+    },
+    "Service Unit (oneshot)": {
+        "prefix": ["service-oneshot", "oneshot"],
+        "description": "A oneshot service that runs to completion (useful for scripts and setup tasks).",
+        "body": [
+            "[Unit]",
+            "Description=${1:Short human-readable title}",
+            "",
+            "[Service]",
+            "Type=oneshot",
+            "RemainAfterExit=${2|yes,no|}",
+            "ExecStart=${3:/usr/bin/command --flag}",
+            "",
+            "[Install]",
+            "WantedBy=${4:multi-user.target}",
+            "$0"
+        ]
+    },
+    "Timer unit": {
+        "prefix": "timer",
+        "description": "A timer unit that activates a matching service on a schedule.",
+        "body": [
+            "[Unit]",
+            "Description=${1:Short human-readable title}",
+            "",
+            "[Timer]",
+            "OnCalendar=${2:daily}",
+            "Persistent=${3|true,false|}",
+            "RandomizedDelaySec=${4:15m}",
+            "Unit=${5:matching}.service",
+            "",
+            "[Install]",
+            "WantedBy=${6:timers.target}",
+            "$0"
+        ]
+    },
+    "Socket unit": {
+        "prefix": "socket",
+        "description": "A socket unit for socket-based activation.",
+        "body": [
+            "[Unit]",
+            "Description=${1:Short human-readable title}",
+            "",
+            "[Socket]",
+            "${2|ListenStream,ListenDatagram,ListenSequentialPacket,ListenFIFO|}=${3:4444}",
+            "Accept=${4|no,yes|}",
+            "",
+            "[Install]",
+            "WantedBy=${5:sockets.target}",
+            "$0"
+        ]
+    },
+    "Mount unit": {
+        "prefix": "mount",
+        "description": "A mount unit. The file name must match the escaped mount point path.",
+        "body": [
+            "[Unit]",
+            "Description=${1:Short human-readable title}",
+            "",
+            "[Mount]",
+            "What=${2:/dev/disk/by-uuid/UUID}",
+            "Where=${3:/mnt/point}",
+            "Type=${4:ext4}",
+            "Options=${5:defaults}",
+            "",
+            "[Install]",
+            "WantedBy=${6:multi-user.target}",
+            "$0"
+        ]
+    },
+    "Automount unit": {
+        "prefix": "automount",
+        "description": "An automount unit that mounts on first access.",
+        "body": [
+            "[Unit]",
+            "Description=${1:Short human-readable title}",
+            "",
+            "[Automount]",
+            "Where=${2:/mnt/point}",
+            "TimeoutIdleSec=${3:120}",
+            "",
+            "[Install]",
+            "WantedBy=${4:multi-user.target}",
+            "$0"
+        ]
+    },
+    "Path unit": {
+        "prefix": "path",
+        "description": "A path unit that activates a service when a path changes.",
+        "body": [
+            "[Unit]",
+            "Description=${1:Short human-readable title}",
+            "",
+            "[Path]",
+            "${2|PathExists,PathExistsGlob,PathChanged,PathModified,DirectoryNotEmpty|}=${3:/path/to/watch}",
+            "Unit=${4:matching}.service",
+            "",
+            "[Install]",
+            "WantedBy=${5:multi-user.target}",
+            "$0"
+        ]
+    },
+    "Target unit": {
+        "prefix": "target",
+        "description": "A target unit used to group other units.",
+        "body": [
+            "[Unit]",
+            "Description=${1:Short human-readable title}",
+            "Requires=${2:network-online.target}",
+            "After=${2:network-online.target}",
+            "$0"
+        ]
+    },
+    "[Unit] section": {
+        "prefix": "[Unit]",
+        "description": "The [Unit] section common to all unit types.",
+        "body": [
+            "[Unit]",
+            "Description=${1:Short human-readable title}",
+            "Documentation=${2:man:example(1)}",
+            "Requires=${3:network-online.target}",
+            "After=${3:network-online.target}",
+            "$0"
+        ]
+    },
+    "[Service] section": {
+        "prefix": "[Service]",
+        "description": "The [Service] section for service units.",
+        "body": [
+            "[Service]",
+            "Type=${1|simple,exec,forking,oneshot,dbus,notify,notify-reload,idle|}",
+            "ExecStart=${2:/usr/bin/command --flag}",
+            "Restart=${3|no,on-success,on-failure,on-abnormal,on-abort,always|}",
+            "RestartSec=${4|5s}",
+            "$0"
+        ]
+    },
+    "[Install] section": {
+        "prefix": "[Install]",
+        "description": "The [Install] section read by systemctl enable/disable.",
+        "body": [
+            "[Install]",
+            "WantedBy=${1:multi-user.target}",
+            "$0"
+        ]
+    }
+}
