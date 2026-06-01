@@ -41,7 +41,7 @@ export const unitFileNameProperty: IItemPropertyInfo<UnitInfo> =
 
     getValue: function (item: UnitInfo): string
     {
-        return item.unitName;
+        return item.unitFileName;
     }
 };
 
