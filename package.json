@@ -3,7 +3,7 @@
     "displayName": "systemd",
     "description": "Makes it easy to create, manage, and inspect systemd units.",
     "icon": "resources/extension-icon.png",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "preview": true,
     "publisher": "dviererbe",
     "license": "AGPL-3.0-or-later",
