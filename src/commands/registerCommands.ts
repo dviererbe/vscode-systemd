@@ -37,6 +37,9 @@ import { installUnitFile } from "./units/installUnitFile";
 import { showJournal } from "./units/showJournal";
 import { configureUnitsFilter } from "./units/configureUnitsFilter";
 import { resetUnitsFilter } from "./units/resetUnitsFilter";
+import { reloadDaemon } from "./general/reloadDaemon";
+import { reloadSystemDaemon } from "./general/reloadSystemDaemon";
+import { reloadUserDaemon } from "./general/reloadUserDaemon";
 
 export function registerCommands(): void
 {
@@ -48,6 +51,21 @@ export function registerCommands(): void
     registerCommand({
         commandId: "vscode-systemd.plot",
         callback: showPlotView,
+        debounce: defaultCommandDebounceInMs,
+    });
+    registerCommand({
+        commandId: "vscode-systemd.reloadDaemon",
+        callback: reloadDaemon,
+        debounce: defaultCommandDebounceInMs,
+    });
+    registerCommand({
+        commandId: "vscode-systemd.reloadSystemDaemon",
+        callback: reloadSystemDaemon,
+        debounce: defaultCommandDebounceInMs,
+    });
+    registerCommand({
+        commandId: "vscode-systemd.reloadUserDaemon",
+        callback: reloadUserDaemon,
         debounce: defaultCommandDebounceInMs,
     });
     registerCommand({

@@ -17,8 +17,8 @@
 import { IActionContext } from "@dviererbe/vscode-utils";
 import { SystemctlCommand } from "../../clients/SystemctlCommand";
 
-export async function daemonReload(context: IActionContext): Promise<void>
+export async function reloadUserDaemon(context: IActionContext): Promise<void>
 {
     context.errorHandling.suppressDisplay = false;
-    SystemctlCommand.daemonReload(context, { scope: "system"});
+    SystemctlCommand.daemonReload(context, { scope: "user"});
 }

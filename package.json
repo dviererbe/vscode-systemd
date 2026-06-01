@@ -175,6 +175,24 @@
                 "icon": "$(output)"
             },
             {
+                "command": "vscode-systemd.reloadDaemon",
+                "title": "%vscode-systemd.commands.reloadDaemon%",
+                "category": "%vscode-systemd.commandCategories.generic%",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "vscode-systemd.reloadSystemDaemon",
+                "title": "%vscode-systemd.commands.reloadSystemDaemon%",
+                "category": "%vscode-systemd.commandCategories.generic%",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "vscode-systemd.reloadUserDaemon",
+                "title": "%vscode-systemd.commands.reloadUserDaemon%",
+                "category": "%vscode-systemd.commandCategories.generic%",
+                "icon": "$(refresh)"
+            },
+            {
                 "command": "vscode-systemd.throwError",
                 "title": "Intentionally throw and error for demonstartion purposes.",
                 "category": "%vscode-systemd.commandCategories.generic%",
@@ -306,6 +324,16 @@
             ],
             "view/item/context": [
                 {
+                    "command": "vscode-systemd.reloadSystemDaemon",
+                    "when": "view == vscode-systemd.views.units && viewItem == units.system",
+                    "group": "general"
+                },
+                {
+                    "command": "vscode-systemd.reloadUserDaemon",
+                    "when": "view == vscode-systemd.views.units && viewItem == units.user",
+                    "group": "general"
+                },
+                {
                     "command": "vscode-systemd.units.openDefinitionFile",
                     "when": "view == vscode-systemd.views.units && viewItem && viewItem =~ /Unit$/i",
                     "group": "inline"
@@ -358,7 +386,7 @@
                 {
                     "command": "vscode-systemd.units.showJournal",
                     "when": "view == vscode-systemd.views.units && viewItem && viewItem =~ /Unit$/i",
-                    "group": "units_2_operation@8"
+                    "group": "units_3_inspect@1"
                 }
             ]
         },

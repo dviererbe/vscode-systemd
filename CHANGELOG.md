@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * unit explorer enhancements:
   * filter value displayed in header
-  * commands/context menu items (configure filter, clear filter)
+  * commands/context menu items (configure filter, clear filter, reload system/user daemon)
   * refresh on interval (default: every 5 seconds)
 * zoom and pan control to startup time plot
 * progress indication for systemd-analyze plot command
