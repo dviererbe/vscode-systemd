@@ -68,6 +68,12 @@
         "webpack": "^5.102.0",
         "webpack-cli": "^6.0.1"
     },
+    "capabilities": {
+        "virtualWorkspaces": true,
+        "untrustedWorkspaces": {
+            "supported": "limited"
+        }
+    },
     "contributes": {
         "commands": [
             {
@@ -169,6 +175,7 @@
                 "command": "vscode-systemd.units.installUnitFile",
                 "title": "%vscode-systemd.commands.units.installUnitFile%",
                 "category": "%vscode-systemd.commandCategories.units%",
+                "enablement": "isWorkspaceTrusted",
                 "icon": "$(diff-added)"
             },
             {
